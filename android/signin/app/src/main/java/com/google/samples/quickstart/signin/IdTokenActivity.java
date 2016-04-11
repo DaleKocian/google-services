@@ -14,14 +14,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
 
 /**
  * Demonstrates retrieving an ID token for the current Google user.
  */
-public class IdTokenActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
+public class IdTokenActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
     private static final String TAG = "IdTokenActivity";
@@ -74,23 +71,17 @@ public class IdTokenActivity extends AppCompatActivity implements
 
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        Log.d(TAG, "signOut:onResult:" + status);
-                        updateUI(false);
-                    }
+                status -> {
+                    Log.d(TAG, "signOut:onResult:" + status);
+                    updateUI(false);
                 });
     }
 
     private void revokeAccess() {
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        Log.d(TAG, "revokeAccess:onResult:" + status);
-                        updateUI(false);
-                    }
+                status -> {
+                    Log.d(TAG, "revokeAccess:onResult:" + status);
+                    updateUI(false);
                 });
     }
 

@@ -17,16 +17,13 @@ import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.api.Status;
 
 /**
  * Activity to demonstrate basic retrieval of the Google user's ID, email address, and basic
  * profile, which also adds a request dialog to access the user's Google Drive.
  */
-public class SignInActivityWithDrive extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
+public class SignInActivityWithDrive extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
     private static final String TAG = "SignInActivity";
@@ -97,12 +94,9 @@ public class SignInActivityWithDrive extends AppCompatActivity implements
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
             showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(GoogleSignInResult googleSignInResult) {
-                    hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
+            opr.setResultCallback(googleSignInResult -> {
+                hideProgressDialog();
+                handleSignInResult(googleSignInResult);
             });
         }
     }
@@ -145,13 +139,10 @@ public class SignInActivityWithDrive extends AppCompatActivity implements
     // [START signOut]
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
+                status -> {
+                    // [START_EXCLUDE]
+                    updateUI(false);
+                    // [END_EXCLUDE]
                 });
     }
     // [END signOut]
@@ -159,13 +150,10 @@ public class SignInActivityWithDrive extends AppCompatActivity implements
     // [START revokeAccess]
     private void revokeAccess() {
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        updateUI(false);
-                        // [END_EXCLUDE]
-                    }
+                status -> {
+                    // [START_EXCLUDE]
+                    updateUI(false);
+                    // [END_EXCLUDE]
                 });
     }
     // [END revokeAccess]

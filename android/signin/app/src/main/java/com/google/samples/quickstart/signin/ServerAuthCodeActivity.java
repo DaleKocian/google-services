@@ -15,16 +15,13 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
-import com.google.android.gms.common.api.Status;
 
 /**
  * Demonstrates retrieving an offline access one-time code for the current Google user, which
  * can be exchanged by your server for an access token and refresh token.
  */
-public class ServerAuthCodeActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener,
+public class ServerAuthCodeActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
     public static final String TAG = "ServerAuthCodeActivity";
@@ -83,23 +80,17 @@ public class ServerAuthCodeActivity extends AppCompatActivity implements
 
     private void signOut() {
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        Log.d(TAG, "signOut:onResult:" + status);
-                        updateUI(false);
-                    }
+                status -> {
+                    Log.d(TAG, "signOut:onResult:" + status);
+                    updateUI(false);
                 });
     }
 
     private void revokeAccess() {
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(Status status) {
-                        Log.d(TAG, "revokeAccess:onResult:" + status);
-                        updateUI(false);
-                    }
+                status -> {
+                    Log.d(TAG, "revokeAccess:onResult:" + status);
+                    updateUI(false);
                 });
     }
 
